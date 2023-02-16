@@ -13,6 +13,7 @@ let replaceAsync = async (str, regex, asyncFn) => {
 }
 
 let load = async (url, origin = '', p = '') => {
+    if (url.includes('+esm')) return url // @todo - Can not resolve all esm files at jsdelivr, use direct link instead
     let hash = crypto.createHash('sha256').update(url + origin + p, 'utf8').digest('hex')
     if (fs.existsSync('./cache/' + hash + '.js')) {
         return path.resolve('./cache/' + hash + '.js')
