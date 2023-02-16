@@ -1,6 +1,6 @@
 {
   "name": "@jscomponent/rollup",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "repository": "github:jscomponent/rollup",
   "main": "index.js",

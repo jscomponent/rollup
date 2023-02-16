@@ -13,8 +13,10 @@ let replaceAsync = async (str, regex, asyncFn) => {
 }
 
 let load = async (url, origin = '', p = '') => {
-    let hash = crypto.randomBytes(20).toString('hex')
-    if (!fs.existsSync('./cache')) {
+    let hash = crypto.createHash('sha256').update(url + origin + p, 'utf8').digest('hex')
+    if (fs.existsSync('./cache/' + hash + '.js')) {
+        return path.resolve('./cache/' + hash + '.js')
+    } else if (!fs.existsSync('./cache')) {
         fs.mkdirSync('./cache', { recursive: true })
     }
     if (url.startsWith('http')) {
@@ -117,7 +119,7 @@ export default () => {
     return {
         async transform(src, id) {
             if (
-                !id.includes('/node_modules/@vue/devtools-api/') &&
+                !id.includes('/node_modules/') &&
                 id.endsWith('.js') || id.endsWith('.mjs') || id.endsWith('.ts') || id.endsWith('.vue')
             ) {
                 return {
